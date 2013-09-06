@@ -28,7 +28,7 @@
 		</ol>
 		<hr>
 		<h4>Usage</h4>
-		Every operations are done via http://212.91.26.136/ndss/ndss invoked with parameter:
+		Every operations are done via http://[your server]/ndss-server/ndss invoked with parameter:
 		<b>operation</b>. Possible values are:<br>
 		<ul type="circle">
 			<li><b>add</b> - must be invoked with additional parameter: <b>propertyName</b>. Parameter <b>propertyValue</b> is optional. It is possible to store empty entries. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.
@@ -48,15 +48,15 @@
 			<li><b>Direct URL</b>
 			<ol>
 				<li>Add new entry<br>
-				http://212.91.26.136/ndss/ndss?operation=<b>add</b>&amp;propertyName=newEntry1&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>add</b>&amp;propertyName=newEntry1&amp;sgid=[your application id here]</li>
 				<li>Update entry<br>
-				http://212.91.26.136/ndss/ndss?operation=<b>update</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>update</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
 				<li>Read entry<br>
-				http://212.91.26.136/ndss/ndss?operation=<b>get</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>get</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
 				<li>List entries<br>
-				http://212.91.26.136/ndss/ndss?operation=<b>list</b>&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>list</b>&amp;sgid=[your application id here]</li>
 				<li>Delete entry<br>
-				http://212.91.26.136/ndss/ndss?operation=<b>delete</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>delete</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
 			</ol></li>
 			<li><b>Java</b><br>
 			<p>
