@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Network data storage servlet</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="/np.css">
+	</head>
+	<body>
+		<h3>Network data storage servlet.</h3>
+    <address>last updated 06.09.2013</address>
+    <p>
+    <i>&nbsp;* Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.<br/>
+    &nbsp;* Corrected database connection config and IP address in this page, after provider's changes.</i>
+    </p>
+		<address>updated 13.03.2013</address>
+		<address>updated 04.02.2013</address>
+		<hr>
+		<h4>Description</h4>
+		<p>
+		Network data storage servlet (NDSS) is a tool to store any information you wish and to make it available for you and your applications. It could be, ie. a storage for your application properties. You can access your properties, using its name and your application id, both defined by you. Each property within one application id has to be unique. You can have as many properties and applications as you wish. Maximum size of property name is 35 characters and maximum size of its value is 10kB (10240 characters).
+		</p>
+		<font style="color#FF0000"><b>WARNING!</b></font><br>
+		<ol style="color:#FF0000;">
+			<li><span style="color: #000000"><b>Any data stored via NDSS could be public!</b> So, keep in mind to do not store any sensitive information in clear text. Encrypt them before store.</span></li>
+			<li><span style="color: #000000">Your <b>S</b>torage <b>G</b>roup <b>ID</b> (<b>SGID</b>) should be more or less random to avoid others to read or modify your data.</span></li>
+				<li><span style="color: #000000">Unused data will be <b>deleted</b> after 30 days of inactivity (reading is activity too).</span></li>
+				<li><span style="color: #000000">I am not responsible for any damage or data lost because of using NDSS. You are using it on your own risk!</span></li>
+		</ol>
+		<hr>
+		<h4>Usage</h4>
+		Every operations are done via http://212.91.26.136/ndss/ndss invoked with parameter:
+		<b>operation</b>. Possible values are:<br>
+		<ul type="circle">
+			<li><b>add</b> - must be invoked with additional parameter: <b>propertyName</b>. Parameter <b>propertyValue</b> is optional. It is possible to store empty entries. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.
+			</li>
+			<li><b>update</b> - must be invoked with additional parameters: <b>propertyName</b>, <b>propertyValue</b>. If no <b>propertyValue</b> parameter exists, the value will be nullified. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.</li>
+			<li><b>get</b> - must be invoked with additional parameter <b>propertyName</b>. Returns string representation of the entry value.</li>
+			<li><b>list</b> returns list of entries within the SGID given by <b>sgid</b> parameter, in form:<br>
+				<code>[key]::==::[last modification date]::==::[value]</code>
+			</li>
+			<li><b>delete</b> - must be invoked with additional parameter <b>propertyName</b>. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.</li>
+		</ul>
+		<font color="#FF0000">Each of the operations <b>has to</b> be invoked with parameter <b>sgid</b> with value set to your application id.</font><br>
+		Operations <code>get</code> and <code>list</code> <b>could</b> be invoked with parameter <b>html</b> to get HTML formatted output.
+		<hr>
+		<h4>Examples</h4>
+		<ol type="I">
+			<li><b>Direct URL</b>
+			<ol>
+				<li>Add new entry<br>
+				http://212.91.26.136/ndss/ndss?operation=<b>add</b>&amp;propertyName=newEntry1&amp;sgid=[your application id here]</li>
+				<li>Update entry<br>
+				http://212.91.26.136/ndss/ndss?operation=<b>update</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				<li>Read entry<br>
+				http://212.91.26.136/ndss/ndss?operation=<b>get</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				<li>List entries<br>
+				http://212.91.26.136/ndss/ndss?operation=<b>list</b>&amp;sgid=[your application id here]</li>
+				<li>Delete entry<br>
+				http://212.91.26.136/ndss/ndss?operation=<b>delete</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+			</ol></li>
+			<li><b>Java</b><br>
+			<p>
+			Download the class <a href="NetPropertiesClient.java"><code>NetPropertiesClient</code></a>. It is prepared to work with a configuration file called <a href="client.conf">'client.conf'</a>. It is also using log4j. If you do not want to logging, remove any line containing 'LOGGER' word from <code>NetPropertiesClient.java</code> file and import of <code>org.apache.log4j.Logger</code>. You can simplify your life by using <code>NetPropertiesClient</code>, just like:</p>
+			<ul type="circle">
+				<li>add new entry<br>
+				<pre>
+NetPropertiesClient client = new NetPropertiesClient("add", name, value, sgid);
+System.out.println(client.call());
+				</pre>
+				</li>
+				<li>update entry<br>
+				<pre>
+NetPropertiesClient client = new NetPropertiesClient("update", name, value, sgid);
+System.out.println(client.call());
+				</pre>
+				</li>
+				<li>read entry<br>
+				<pre>
+NetPropertiesClient client = new NetPropertiesClient("get", name, sgid);
+System.out.println(client.call());
+				</pre>
+				</li>
+				<li>list entries<br>
+				<pre>
+NetPropertiesClient client = new NetPropertiesClient("list", null, sgid);
+System.out.println(client.call());
+				</pre>
+				</li>
+				<li>delete entry<br>
+				<pre>
+NetPropertiesClient client = new NetPropertiesClient("delete", name, sgid);
+System.out.println(client.call());
+				</pre>
+				</li>
+			</ul>
+			</li>
+		</ol>
+		<p>
+			<a href="http://validator.w3.org/check?uri=referer"><img
+				 src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+			 <a href="http://www.vim.org"><img src="http://www.vim.org/images/vim_created_blue.gif" alt="created with vim" ></a>
+		 </p>
+	</body>
+</html>
