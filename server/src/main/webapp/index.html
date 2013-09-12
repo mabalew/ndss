@@ -9,7 +9,7 @@
 		<h3>Network data storage servlet.</h3>
     <address>last updated 06.09.2013</address>
     <p>
-    <i>&nbsp;* Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.<br/>
+    <i>&nbsp;* Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.<br>
     &nbsp;* Corrected database connection config and IP address in this page, after provider's changes.</i>
     </p>
 		<address>updated 13.03.2013</address>
@@ -26,7 +26,54 @@
 				<li><span style="color: #000000">Unused data will be <b>deleted</b> after 30 days of inactivity (reading is activity too).</span></li>
 				<li><span style="color: #000000">I am not responsible for any damage or data lost because of using NDSS. You are using it on your own risk!</span></li>
 		</ol>
-		<hr>
+    <hr>
+    <h4>Test zone</h4>
+    <form id="testZone" action="ndss">
+      <table>
+        <tr>
+          <td align="right">
+            SGID:
+          </td>
+          <td align="left">
+            <input type="text" name="sgid">
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            Property name:
+          </td>
+          <td>
+            <input type="text" name="propertyName">
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            Property value:
+          </td>
+          <td>
+            <input type="text" name="propertyValue">
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            Operation:
+          </td>
+          <td>
+            <input type="radio" name="operation" value="add">add
+            <input type="radio" name="operation" value="update">update
+            <input type="radio" name="operation" value="get">get
+            <input type="radio" name="operation" value="list">list
+            <input type="radio" name="operation" value="delete">delete
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="right">
+            <input type="submit" name="html" value="OK">
+          </td>
+        </tr>
+      </table>
+    </form>
+    <hr>
 		<h4>Usage</h4>
 		Every operations are done via http://[your server]/ndss-server/ndss invoked with parameter:
 		<b>operation</b>. Possible values are:<br>
@@ -97,7 +144,7 @@ System.out.println(client.call());
 		</ol>
 		<p>
 			<a href="http://validator.w3.org/check?uri=referer"><img
-				 src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+				 src="http://www.w3.org/Icons/valid-html401-blue" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
 			 <a href="http://www.vim.org"><img src="http://www.vim.org/images/vim_created_blue.gif" alt="created with vim" ></a>
 		 </p>
 	</body>
