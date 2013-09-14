@@ -5,9 +5,18 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" type="text/css" href="/np.css">
 	</head>
-	<body>
+  <body>
+    <font face="Arial, Helvetica">
 		<h3>Network data storage servlet.</h3>
-    <address>last updated 06.09.2013</address>
+    <address>last updated 14.09.2013</address>
+    <p>
+    <i>Added "HTML output" checkbox to test form.</i>
+    </p>
+    <address>updated 12.09.2013</address>
+    <p>
+    <i>Added test form</i>
+    </p>
+    <address>updated 06.09.2013</address>
     <p>
     <i>&nbsp;* Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.<br>
     &nbsp;* Corrected database connection config and IP address in this page, after provider's changes.</i>
@@ -68,7 +77,12 @@
         </tr>
         <tr>
           <td colspan="2" align="right">
-            <input type="submit" name="html" value="OK">
+            <input type="checkbox" name="html" value="true" />HTML output
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="right">
+            <input type="submit" name="submit" value="OK">
           </td>
         </tr>
       </table>
@@ -145,7 +159,8 @@ System.out.println(client.call());
 		<p>
 			<a href="http://validator.w3.org/check?uri=referer"><img
 				 src="http://www.w3.org/Icons/valid-html401-blue" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
-			 <a href="http://www.vim.org"><img src="http://www.vim.org/images/vim_created_blue.gif" alt="created with vim" ></a>
-		 </p>
+			<a href="http://www.vim.org"><img src="http://www.vim.org/images/vim_created_blue.gif" alt="created with vim" ></a>
+    </p>
+   </font>
 	</body>
 </html>

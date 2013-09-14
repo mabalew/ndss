@@ -86,15 +86,15 @@ public class NDSServlet extends HttpServlet {
 			return getNDS().list();
 		else {
 			String[] lines = getNDS().list().split(System.getProperty("line.separator"));
-			sb.append("<table border='1' cellpadding='0' cellspacing='0'>");	
+			sb.append("<table border='0' cellpadding='2' cellspacing='0'>");	
 			for (String line: lines) {
 				String[] eqLine = line.split("::==::");
 				String key = eqLine[0];
 				String lastUpdate = eqLine[1];
 				String value = eqLine[2];
 				sb.append("<tr>");
-				sb.append("<td>" + key + "</td>");
 				sb.append("<td>" + lastUpdate + "</td>");
+				sb.append("<td style=\"background-color: #cc99ff\">" + key + "</td>");
 				sb.append("<td>" + value + "</td>");
 				sb.append("</tr>");
 			}
