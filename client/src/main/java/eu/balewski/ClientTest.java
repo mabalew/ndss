@@ -74,7 +74,7 @@ public class ClientTest {
 	}
 
 	private static void testAdd(String name, String value) {
-		NDSClient client = new NDSClient("add", name, value, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid);
 		System.out.println(client.call());
 	}
 
@@ -91,22 +91,22 @@ public class ClientTest {
 	}
 
 	private static void testGet(String name) {
-		NDSClient client = new NDSClient("get", name, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid);
 		System.out.println(client.call());
 	}
 
 	private static void testUpdate(String name, String value) {
-		NDSClient client = new NDSClient("update", name, value, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid);
 		System.out.println(client.call());
 	}
 
 	private static void testDelete(String name) {
-		NDSClient client = new NDSClient("delete", name, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid);
 		System.out.println(client.call());
 	}
 
 	private static void testList() {
-		NDSClient client = new NDSClient("list", null, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid);
 		System.out.println(client.call());
 	}
 
