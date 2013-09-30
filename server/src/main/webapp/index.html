@@ -124,35 +124,35 @@
 			</ol></li>
 			<li><b>Java</b><br>
 			<p>
-			Download the class <a href="NetPropertiesClient.java"><code>NetPropertiesClient</code></a>. It is prepared to work with a configuration file called <a href="client.conf">'client.conf'</a>. It is also using log4j. If you do not want to logging, remove any line containing 'LOGGER' word from <code>NetPropertiesClient.java</code> file and import of <code>org.apache.log4j.Logger</code>. You can simplify your life by using <code>NetPropertiesClient</code>, just like:</p>
+			Download the class <a href="NDSClient.java"><code>NDSClient</code></a>. It is prepared to work with a configuration file called <a href="client.conf">'client.conf'</a>. It is also using log4j. If you do not want to logging, remove any line containing 'LOGGER' word from <code>NDSClient.java</code> file and import of <code>org.apache.log4j.Logger</code>. You can simplify your life by using <code>NDSClient</code>, just like:</p>
 			<ul type="circle">
 				<li>add new entry<br>
 				<pre>
-NetPropertiesClient client = new NetPropertiesClient(NDSClient.Operation.ADD, name, value, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>update entry<br>
 				<pre>
-NetPropertiesClient client = new NetPropertiesClient(NDSClient.Operation.UPDATE, name, value, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>read entry<br>
 				<pre>
-NetPropertiesClient client = new NetPropertiesClient(NDSClient.Operation.GET, name, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>list entries<br>
 				<pre>
-NetPropertiesClient client = new NetPropertiesClient(NDSClient.Operation.LIST, null, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>delete entry<br>
 				<pre>
-NetPropertiesClient client = new NetPropertiesClient(NDSClient.Operation.DELETE, name, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid);
 System.out.println(client.call());
 				</pre>
 				</li>
