@@ -102,7 +102,7 @@
 			<li><b>add</b> - must be invoked with additional parameter: <b>propertyName</b>. Parameter <b>propertyValue</b> is optional. It is possible to store empty entries. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.
 			</li>
 			<li><b>update</b> - must be invoked with additional parameters: <b>propertyName</b>, <b>propertyValue</b>. If no <b>propertyValue</b> parameter exists, the value will be nullified. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.</li>
-			<li><b>get</b> - must be invoked with additional parameter <b>propertyName</b>. Returns string representation of the entry value.</li>
+			<li><b>get</b> - must be invoked with additional parameter <b>propertyName</b>. Returns string representation of the entry value or string 'null' in case of empty value.</li>
 			<li><b>list</b> returns list of entries within the SGID given by <b>sgid</b> parameter, in form:<br>
 				<code>[key]::==::[last modification date]::==::[value]</code>
 			</li>
