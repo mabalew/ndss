@@ -21,9 +21,10 @@ public class NDS {
 		getConnection();
 	}
 
-	public boolean addProperty(String name, String value) {
+	public String addProperty(String name, String value, NDSOutputFormat outputFormat) {
 		CallableStatement statement = null;
 		String sql = "{call devtools.add_property(?,?,?,?)}";
+    String result = "";
 		LOGGER.debug("executing {call devtools.add_property(" + name + ", " + value + ", " + this.sgid + ")}");
 
 		try {
@@ -33,20 +34,26 @@ public class NDS {
 			statement.setString(3, this.sgid);
 			statement.registerOutParameter(4, java.sql.Types.BOOLEAN);
 			statement.executeUpdate();
-			Boolean result = statement.getBoolean(4);
+			result = statement.getBoolean(4) + "";
 			LOGGER.debug("result: " + result);
+      if (outputFormat == NDSOutputFormat.XML) {
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.getProperty("line.separator");
+        result = xml + "<result>" + result + "</result>";
+      } else if (outputFormat == NDSOutputFormat.JSON) {
+        result = "{ \"result\": " + result + "}";
+      }
 			return result;
 		} catch (SQLException e) {
 			LOGGER.error(e, e);
 		}
-		return false;
+		return result;
 	}
 
-	public boolean updateProperty(String name, String value) {
+	public String updateProperty(String name, String value, NDSOutputFormat outputFormat) {
 		CallableStatement statement = null;
 		String sql = "{call devtools.update_property(?,?,?,?)}";
 		LOGGER.debug("executing {call devtools.update_property(" + name + ", " + value + ", " + this.sgid + ")}");
-
+    String result = "";
 		try {
 			statement = getConnection().prepareCall(sql);
 			statement.setString(1, name);
@@ -54,16 +61,22 @@ public class NDS {
 			statement.setString(3, this.sgid);
 			statement.registerOutParameter(4, java.sql.Types.BOOLEAN);
 			statement.executeUpdate();
-			Boolean result = statement.getBoolean(4);
+			result = statement.getBoolean(4) + "";
+      if (outputFormat == NDSOutputFormat.XML) {
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.getProperty("line.separator");
+        result = xml + "<result>" + result + "</result>";
+      } else if (outputFormat == NDSOutputFormat.JSON) {
+        result = "{ \"result\": " + result + "}";
+      }
 			LOGGER.debug("result: " + result);
 			return result;
 		} catch (SQLException e) {
 			LOGGER.error(e, e);
 		}
-		return false;
+		return result;
 	}
 
-	public String getProperty(String name) {
+	public String getProperty(String name, NDSOutputFormat outputFormat) {
 		CallableStatement statement = null;
 		String sql = "{call devtools.get_property(?,?,?)}";
 		LOGGER.debug("executing call devtools.get_property(" + name + ", " + this.sgid + ")}");
@@ -75,6 +88,14 @@ public class NDS {
 			statement.registerOutParameter(3, java.sql.Types.VARCHAR);
 			statement.executeUpdate();
 			String result = statement.getString(3);
+      if (outputFormat == NDSOutputFormat.XML) {
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.getProperty("line.separator");
+        result = xml + "<entry>" + result + "</entry>";
+      } else if (outputFormat == NDSOutputFormat.JSON) {
+        result = "{ \"entry\": \"" + result + "\"}";
+      } else if (outputFormat == NDSOutputFormat.HTML) {
+        result = "<p>" + result + "</p>";
+      }
 			LOGGER.debug("result: " + result);
 			return result;
 		} catch (SQLException e) {
@@ -83,9 +104,10 @@ public class NDS {
 		return null;
 	}
 
-	public boolean deleteProperty(String name) {
+	public String deleteProperty(String name, NDSOutputFormat outputFormat) {
 		CallableStatement statement = null;
 		String sql = "{call devtools.delete_property(?,?,?)}";
+    String result = "";
 		LOGGER.debug("executing call devtools.delete_property(" + name + ", " + this.sgid + ")}");
 
 		try {
@@ -94,16 +116,61 @@ public class NDS {
 			statement.setString(2, this.sgid);
 			statement.registerOutParameter(3, java.sql.Types.BOOLEAN);
 			statement.executeUpdate();
-			Boolean result = statement.getBoolean(3);
+			result = statement.getBoolean(3) + "";
 			LOGGER.debug("result: " + result);
+      if (outputFormat == NDSOutputFormat.XML) {
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.getProperty("line.separator");
+        result = xml + "<result>" + result.toString() + "</result>";
+      } else if (outputFormat == NDSOutputFormat.JSON) {
+        result = "{ \"result\": " + result + "}";
+      }
 			return result;
 		} catch (SQLException e) {
 			LOGGER.error(e, e);
 		}
-		return false;
+		return result;
 	}
 
-	public String list() {
+  private String getTextList(ResultSet rs) throws SQLException {
+		StringBuilder result = new StringBuilder();
+		while (rs.next()) {
+			result.append(rs.getString(1)).append("::==::").append(rs.getDate(3)).append("::==::").append(rs.getString(2)).append(System.getProperty("line.separator"));
+		}
+    return result.toString();
+  }
+    
+  private String getXMLList(ResultSet rs) throws SQLException {
+		StringBuilder result = new StringBuilder();
+    result.append("<entries>").append(System.getProperty("line.separator"));
+		while (rs.next()) {
+      result.append("<entry>").append(System.getProperty("line.separator"));
+			result.append("<updated>").append(rs.getString(1)).append("</updated><name>").append(rs.getDate(3)).append("</name><value>").append(rs.getString(2)).append("</value>").append(System.getProperty("line.separator"));
+      result.append("</entry>").append(System.getProperty("line.separator"));
+		}
+    result.append("</entries>").append(System.getProperty("line.separator"));
+
+    return result.toString();
+  }
+
+  private String getJSONList(ResultSet rs) throws SQLException {
+		StringBuilder result = new StringBuilder();
+    result.append("{").append(System.getProperty("line.separator")).append("\"entries\": [");
+		while (rs.next()) {
+      result.append("{").append(System.getProperty("line.separator"));
+			result.append("\"updated\": \"").append(rs.getString(1)).append("\",").append(System.getProperty("line.separator"));
+      result.append("\"name\": \"").append(rs.getDate(3)).append("\",").append(System.getProperty("line.separator"));
+      result.append("\"value\": \"").append(rs.getString(2)).append("\"").append(System.getProperty("line.separator"));
+      result.append("},").append(System.getProperty("line.separator"));
+		}
+    result.deleteCharAt(result.length() - 1);
+    result.deleteCharAt(result.length() - 1);
+    result.append("]").append(System.getProperty("line.separator"));
+    result.append("}");
+
+    return result.toString();
+  }
+
+  public String list(NDSOutputFormat outputFormat) {
 		CallableStatement statement = null;
 		String sql = "{ ? = call devtools.list_properties(?) }";
 		StringBuilder result = new StringBuilder();
@@ -117,9 +184,13 @@ public class NDS {
 			  statement.registerOutParameter(1, java.sql.Types.OTHER);
 			  statement.execute();
 			  ResultSet rs = (ResultSet)statement.getObject(1);
-			  while (rs.next()) {
-				  result.append(rs.getString(1)).append("::==::").append(rs.getDate(3)).append("::==::").append(rs.getString(2)).append(System.getProperty("line.separator"));
-			  }
+        if (outputFormat == NDSOutputFormat.TEXT) {
+          result.append(getTextList(rs));
+        } else if (outputFormat == NDSOutputFormat.XML) {
+          result.append(getXMLList(rs));
+        } else if (outputFormat == NDSOutputFormat.JSON) {
+          result.append(getJSONList(rs));
+        }
 			  rs.close();
 			  statement.close();
 			  LOGGER.debug("result: " + result.toString());
@@ -129,7 +200,14 @@ public class NDS {
 		} catch (SQLException e) {
 			LOGGER.error(e, e);
 		}
+
 		return null;
+  }
+
+  //Methods keept for backward compatibility.
+  //Further versions should use only parameterized methods list(NDSOutputFormat)
+	public String list() {
+    return list(NDSOutputFormat.TEXT);
 	}
 
 	private static Connection getConnection() {

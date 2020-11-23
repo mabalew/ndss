@@ -7,34 +7,6 @@
 	</head>
   <body style="font-family: Arial, Helvetica;">
 		<h3>Network data storage servlet.</h3>
-    <address>updated 31.08.2016</address>
-    <p>
-    <i>&nbsp;* Added verification of data read from database, before creating resulting string.</i>
-    </p>
-    <address>updated 30.09.2013</address>
-    <p>
-    <i>&nbsp;* NetProperties renamed to NDSS</i>
-    </p>
-    <address>updated 18.09.2013</address>
-    <p>
-    <i>&nbsp;* Added enum NDSClient.Operation to use instead of String represenations of the commands.</i>
-    </p>
-    <address>updated 14.09.2013</address>
-    <p>
-    <i>&nbsp;* Added "HTML output" checkbox to test form.</i>
-    </p>
-    <address>updated 12.09.2013</address>
-    <p>
-    <i>&nbsp;* Added test form</i>
-    </p>
-    <address>updated 06.09.2013</address>
-    <p>
-    <i>&nbsp;* Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.<br>
-    &nbsp;* Corrected database connection config and IP address in this page, after provider's changes.</i>
-    </p>
-		<address>updated 13.03.2013</address>
-		<address>updated 04.02.2013</address>
-		<hr>
 		<h4>Description</h4>
 		<p>
 		Network data storage servlet (NDSS) is a tool to store any information you wish and to make it available for you and your applications. It could be, ie. a storage for your application properties. You can access your properties, using its name and your application id, both defined by you. Each property within one application id has to be unique. You can have as many properties and applications as you wish. Maximum size of property name is 35 characters and maximum size of its value is 10kB (10240 characters).
@@ -87,8 +59,14 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" align="right">
-            <input type="checkbox" name="html" value="true">HTML output
+          <td align="right">
+            Output:
+          </td>
+          <td>
+            <input type="radio" name="format" value="text">TEXT
+            <input type="radio" name="format" value="html">HTML
+            <input type="radio" name="format" value="xml">XML
+            <input type="radio" name="format" value="json">JSON
           </td>
         </tr>
         <tr>
@@ -112,7 +90,8 @@
 			</li>
 			<li><b>delete</b> - must be invoked with additional parameter <b>propertyName</b>. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.</li>
 		</ul>
-		<font color="#FF0000">Each of the operations <b>has to</b> be invoked with parameter <b>sgid</b> with value set to your application id.</font><br>
+    <font color="#FF0000">Each of the operations <b>has to</b> be invoked with parameters: <b>sgid</b> with
+      value set to your application id and <b>format</b> set to one of: <i>text, html, xml or json</i></font><br>
 		Operations <code>get</code> and <code>list</code> <b>could</b> be invoked with parameter <b>html</b> to get HTML formatted output.
 		<hr>
 		<h4>Examples</h4>
@@ -120,15 +99,21 @@
 			<li><b>Direct URL</b>
 			<ol>
 				<li>Add new entry<br>
-				http://[your server]/ndss-server/ndss?operation=<b>add</b>&amp;propertyName=newEntry1&amp;sgid=[your application id here]</li>
+				http://[your
+        server]/ndss-server/ndss?operation=<b>add</b>&amp;propertyName=newEntry1&amp;format=[text, html, xml
+        or json]&amp;sgid=[your application id here]</li>
 				<li>Update entry<br>
-				http://[your server]/ndss-server/ndss?operation=<b>update</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>update</b>&amp;propertyName=new&amp;format=[text, html, xml
+        or json]&amp;sgid=[your application id here]</li>
 				<li>Read entry<br>
-				http://[your server]/ndss-server/ndss?operation=<b>get</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>get</b>&amp;format=[text, html, xml
+        or json]&amp;propertyName=new&amp;sgid=[your application id here]</li>
 				<li>List entries<br>
-				http://[your server]/ndss-server/ndss?operation=<b>list</b>&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>list</b>&amp;format=[text, html, xml
+        or json]&amp;sgid=[your application id here]</li>
 				<li>Delete entry<br>
-				http://[your server]/ndss-server/ndss?operation=<b>delete</b>&amp;propertyName=new&amp;sgid=[your application id here]</li>
+				http://[your server]/ndss-server/ndss?operation=<b>delete</b>&amp;format=[text, html, xml
+        or json]&amp;propertyName=new&amp;sgid=[your application id here]</li>
 			</ol></li>
 			<li><b>Java</b><br>
 			<p>
@@ -136,37 +121,72 @@
 			<ul type="circle">
 				<li>add new entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid, format);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>update entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid, format);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>read entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid, format);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>list entries<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid, format);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>delete entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid);
+NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid, format);
 System.out.println(client.call());
 				</pre>
 				</li>
 			</ul>
 			</li>
 		</ol>
+    <hr>
+    <h4>Changelog</h4>
+    <address>updated 19.11.2020</address>
+    <p>
+    <i>&nbsp;* Added XML and JSON as output format for the data.</i>
+    </p>
+    <address>updated 31.08.2016</address>
+    <p>
+    <i>&nbsp;* Added verification of data read from database, before creating resulting string.</i>
+    </p>
+    <address>updated 30.09.2013</address>
+    <p>
+    <i>&nbsp;* NetProperties renamed to NDSS</i>
+    </p>
+    <address>updated 18.09.2013</address>
+    <p>
+    <i>&nbsp;* Added enum NDSClient.Operation to use instead of String represenations of the commands.</i>
+    </p>
+    <address>updated 14.09.2013</address>
+    <p>
+    <i>&nbsp;* Added "HTML output" checkbox to test form.</i>
+    </p>
+    <address>updated 12.09.2013</address>
+    <p>
+    <i>&nbsp;* Added test form</i>
+    </p>
+    <address>updated 06.09.2013</address>
+    <p>
+    <i>&nbsp;* Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.<br>
+    &nbsp;* Corrected database connection config and IP address in this page, after provider's changes.</i>
+    </p>
+		<address>updated 13.03.2013</address>
+		<address>updated 04.02.2013</address>
+		<hr>
+
 		<p>
 			<a href="http://validator.w3.org/check?uri=referer"><img
 				 src="http://www.w3.org/Icons/valid-html401-blue" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>

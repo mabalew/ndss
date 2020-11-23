@@ -7,7 +7,11 @@ import javax.servlet.http.*;
 public class NDSServlet extends HttpServlet {
 	private NDS nds = null;
 	private String sgid;
+	private boolean text = false;
 	private boolean html = false;
+	private boolean xml = false;
+	private boolean json = false;
+  private NDSOutputFormat outputFormat;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGetOrPost(request, response);
@@ -22,8 +26,26 @@ public class NDSServlet extends HttpServlet {
 		String propertyValue = request.getParameter("propertyValue");
 		this.sgid = request.getParameter("sgid");
 		String operation = request.getParameter("operation");
-		if (request.getParameter("html") != null && !request.getParameter("html").isEmpty() && "true".equals(request.getParameter("html")))
+		if (request.getParameter("format") != null && !request.getParameter("format").isEmpty() && "html".equals(request.getParameter("format"))) {
+      response.setContentType("text/html");
+      this.outputFormat = NDSOutputFormat.HTML;
 			this.html = true;
+    }
+    if (request.getParameter("format") != null && !request.getParameter("format").isEmpty() && "text".equals(request.getParameter("format"))) {
+      response.setContentType("text/plain");
+      this.outputFormat = NDSOutputFormat.TEXT;
+			this.text = true;
+    }
+    if (request.getParameter("format") != null && !request.getParameter("format").isEmpty() && "xml".equals(request.getParameter("format"))) {
+      response.setContentType("text/xml; charset=UTF-8");
+      this.outputFormat = NDSOutputFormat.XML;
+			this.xml = true;
+    }
+    if (request.getParameter("format") != null && !request.getParameter("format").isEmpty() && "json".equals(request.getParameter("format"))) {
+      response.setContentType("application/json");
+      this.outputFormat = NDSOutputFormat.JSON;
+			this.json = true;
+    }
 
 		response.getWriter().write(doOperation(operation, propertyName, propertyValue));
 	}
@@ -49,43 +71,58 @@ public class NDSServlet extends HttpServlet {
 	}
 
 	private String doAdd(String propertyName, String propertyValue) {
-		String result = getNDS().addProperty(propertyName, propertyValue) + "";
+		String result = getNDS().addProperty(propertyName, propertyValue, this.outputFormat) + "";
 		this.html = false;
+		this.text = false;
+		this.xml = false;
+		this.json = false;
 
 		return result;
 	}
 
 	private String doUpdate(String propertyName, String propertyValue) {
-		String result = getNDS().updateProperty(propertyName, propertyValue) + "";
+		String result = getNDS().updateProperty(propertyName, propertyValue, this.outputFormat) + "";
 		this.html = false;
+		this.text = false;
+		this.xml = false;
+		this.json = false;
 
 		return result;
 	}
 
 	private String doDelete(String propertyName) {
-		String result = getNDS().deleteProperty(propertyName) + "";
+		String result = getNDS().deleteProperty(propertyName, this.outputFormat) + "";
 		this.html = false;
+		this.text = false;
+		this.xml = false;
+		this.json = false;
 
 		return result;
 	}
 
 	private String doGet(String propertyName) {
-		if (!html) {
-			String result = getNDS().getProperty(propertyName);
-			this.html = false;
+		String result = getNDS().getProperty(propertyName, this.outputFormat);
+		this.xml = false;
+		this.json = false;
+		this.html = false;
 
-			return result;
-		} else {
-			return "<p>" + getNDS().getProperty(propertyName) + "</p>";
-		}
+    return result;
 	}
 
 	private String doList() {
 		StringBuilder sb = new StringBuilder();
-		if (!html)
-			return getNDS().list();
-		else {
-			String[] lines = getNDS().list().split(System.getProperty("line.separator"));
+    if (text) {
+		  this.text = false;
+			return getNDS().list(NDSOutputFormat.TEXT);
+    } else if (xml) {
+		  this.xml = false;
+			return getNDS().list(NDSOutputFormat.XML);
+    } else if (json) {
+		  this.json = false;
+      return getNDS().list(NDSOutputFormat.JSON);
+    } else if (html) {
+			this.html = false;
+			String[] lines = getNDS().list(NDSOutputFormat.TEXT).split(System.getProperty("line.separator"));
 			sb.append("<table border='0' cellpadding='2' cellspacing='0'>");	
 			for (String line: lines) {
 				String[] eqLine = line.split("::==::");
@@ -101,10 +138,8 @@ public class NDSServlet extends HttpServlet {
         }
 			}
 			sb.append("</table>");
-			this.html = false;
-
-			return sb.toString();
 		}
+		return sb.toString();
 	}
 
 	private NDS getNDS() {
