@@ -2,7 +2,16 @@ package eu.balewski;
 
 public class ClientTest {
 	static String sgid;
+  static String outputFormat = "";
+/*  static NDSOutputFormat outputFormat;
 
+  private static void //setOutputFormat(String format) {
+    if (format.equalsIgnoreCase("text")) outputFormat = NDSOutputFormat.TEXT;
+    else if (format.equalsIgnoreCase("html")) outputFormat = NDSOutputFormat.HTML;
+    else if (format.equalsIgnoreCase("xml")) outputFormat = NDSOutputFormat.XML;
+    else if (format.equalsIgnoreCase("json")) outputFormat = NDSOutputFormat.JSON;
+  }
+*/
 	public static void main(String ... args) {
 		if (args == null || args.length < 2) {
 			System.out.println("niepoprawna liczba parametrów (-1)");
@@ -11,6 +20,8 @@ public class ClientTest {
 			if ("-a".equals(args[0])) {
 				if (args.length >= 3) {
 					sgid = args[3];
+          outputFormat = args[4];
+          //setOutputFormat(outputFormat);
 					testAdd(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-2)");
@@ -19,6 +30,8 @@ public class ClientTest {
 			} else if ("-am".equals(args[0])) {
 				if (args.length >= 3) {
 					sgid = args[3];
+          outputFormat = args[4];
+          //setOutputFormat(outputFormat);
 					testAddMass(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-22)");
@@ -28,6 +41,8 @@ public class ClientTest {
 			} else if ("-g".equals(args[0])) {
 				if (args.length >= 2) {
 					sgid = args[2];
+          outputFormat = args[3];
+          //setOutputFormat(outputFormat);
 					testGet(args[1]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-3)");
@@ -39,6 +54,8 @@ public class ClientTest {
 				if (args.length >= 2) {
           System.out.println("sgid: " + args[1]);
 					sgid = args[1];
+          outputFormat = args[2];
+          //setOutputFormat(outputFormat);
 					testList();
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-3)");
@@ -48,6 +65,8 @@ public class ClientTest {
 			} else if ("-u".equals(args[0])) {
 				if (args.length >= 3) {
 					sgid = args[3];
+          outputFormat = args[4];
+          //setOutputFormat(outputFormat);
 					testUpdate(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-4)");
@@ -56,6 +75,8 @@ public class ClientTest {
 			} else if ("-d".equals(args[0])) {
 				if (args.length >= 2) {
 					sgid = args[2];
+          outputFormat = args[3];
+          //setOutputFormat(outputFormat);
 					testDelete(args[1]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-5)");
@@ -64,6 +85,8 @@ public class ClientTest {
 			} else if ("-dm".equals(args[0])) {
 				if (args.length >= 3) {
 					sgid = args[3];
+          outputFormat = args[4];
+          //setOutputFormat(outputFormat);
 					testDeleteMass(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-5)");
@@ -74,7 +97,7 @@ public class ClientTest {
 	}
 
 	private static void testAdd(String name, String value) {
-		NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid, outputFormat);
 		System.out.println(client.call());
 	}
 
@@ -91,22 +114,22 @@ public class ClientTest {
 	}
 
 	private static void testGet(String name) {
-		NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid, outputFormat);
 		System.out.println(client.call());
 	}
 
 	private static void testUpdate(String name, String value) {
-		NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid, outputFormat);
 		System.out.println(client.call());
 	}
 
 	private static void testDelete(String name) {
-		NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid, outputFormat);
 		System.out.println(client.call());
 	}
 
 	private static void testList() {
-		NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid);
+		NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid, outputFormat);
 		System.out.println(client.call());
 	}
 

@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
 
+//import eu.balewski.NDSOutputFormat;
+
 /**
  * @author: Mariusz Balewski
  */
@@ -19,6 +21,7 @@ public class NDSClient {
 	private String propertyValue;
 	private String sgid;
 	private Operation operation;
+	private String outputFormat;
 
   public enum Operation {
     ADD,
@@ -28,15 +31,16 @@ public class NDSClient {
     DELETE;
   };
 
-	public NDSClient(Operation operation, String propertyName, String propertyValue, String sgid) {
-		this(operation, propertyName, sgid);
+	public NDSClient(Operation operation, String propertyName, String propertyValue, String sgid, String outputFormat) {
+		this(operation, propertyName, sgid, outputFormat);
 		this.propertyValue = propertyValue;
 	}
 
-	public NDSClient(Operation operation, String propertyName, String sgid) {
+	public NDSClient(Operation operation, String propertyName, String sgid, String outputFormat) {
 		this.operation = operation;
 		this.propertyName = propertyName;
 		this.sgid = sgid;
+    this.outputFormat = outputFormat;
 	}
 
 	public String call() {
@@ -45,6 +49,7 @@ public class NDSClient {
 		params.put("propertyName", this.propertyName);
 		params.put("propertyValue", this.propertyValue);
 		params.put("sgid", this.sgid);
+		params.put("format", this.outputFormat);
 
 		URLConnection connection = null;
 		try {
@@ -86,6 +91,7 @@ public class NDSClient {
 			String servletUrl = getProperties().getProperty("SERVLET_URL");
 			result = new URL(servletUrl + paramsString);
 			LOGGER.debug("prepared url: " + result.toString());
+      System.out.println(result.toString());
 		} catch (MalformedURLException e) {
 			LOGGER.error(e, e);
 		}
