@@ -134,7 +134,7 @@ public class NDS {
   private String getTextList(ResultSet rs) throws SQLException {
 		StringBuilder result = new StringBuilder();
 		while (rs.next()) {
-			result.append(rs.getString(1)).append("::==::").append(rs.getDate(3)).append("::==::").append(rs.getString(2)).append(System.getProperty("line.separator"));
+			result.append(rs.getString(1)).append("::==::").append(rs.getTimestamp(3)).append("::==::").append(rs.getString(2)).append(System.getProperty("line.separator"));
 		}
     return result.toString();
   }
@@ -144,7 +144,7 @@ public class NDS {
     result.append("<entries>").append(System.getProperty("line.separator"));
 		while (rs.next()) {
       result.append("<entry>").append(System.getProperty("line.separator"));
-			result.append("<updated>").append(rs.getString(1)).append("</updated><name>").append(rs.getDate(3)).append("</name><value>").append(rs.getString(2)).append("</value>").append(System.getProperty("line.separator"));
+			result.append("<updated>").append(rs.getTimestamp(3)).append("</updated><name>").append(rs.getString(1)).append("</name><value>").append(rs.getString(2)).append("</value>").append(System.getProperty("line.separator"));
       result.append("</entry>").append(System.getProperty("line.separator"));
 		}
     result.append("</entries>").append(System.getProperty("line.separator"));
@@ -157,8 +157,8 @@ public class NDS {
     result.append("{").append(System.getProperty("line.separator")).append("\"entries\": [");
 		while (rs.next()) {
       result.append("{").append(System.getProperty("line.separator"));
-			result.append("\"updated\": \"").append(rs.getString(1)).append("\",").append(System.getProperty("line.separator"));
-      result.append("\"name\": \"").append(rs.getDate(3)).append("\",").append(System.getProperty("line.separator"));
+			result.append("\"updated\": \"").append(rs.getTimestamp(3)).append("\",").append(System.getProperty("line.separator"));
+      result.append("\"name\": \"").append(rs.getString(1)).append("\",").append(System.getProperty("line.separator"));
       result.append("\"value\": \"").append(rs.getString(2)).append("\"").append(System.getProperty("line.separator"));
       result.append("},").append(System.getProperty("line.separator"));
 		}
