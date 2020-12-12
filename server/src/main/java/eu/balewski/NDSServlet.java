@@ -126,11 +126,13 @@ public class NDSServlet extends HttpServlet {
 			sb.append("<table border='0' cellpadding='2' cellspacing='0'>");	
 			for (String line: lines) {
 				String[] eqLine = line.split("::==::");
-        if (eqLine != null && eqLine.length == 3) {
+        if (eqLine != null && eqLine.length == 4) {
 				  String key = eqLine[0];
-				  String lastUpdate = eqLine[1];
-				  String value = eqLine[2];
+          String created = eqLine[1];
+				  String lastUpdate = eqLine[2];
+				  String value = eqLine[3];
 				  sb.append("<tr>");
+				  sb.append("<td style=\"background-color: #cc99ff\">" + created + "</td>");
 				  sb.append("<td>" + lastUpdate + "</td>");
 				  sb.append("<td style=\"background-color: #cc99ff\">" + key + "</td>");
 				  sb.append("<td>" + value + "</td>");
