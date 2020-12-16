@@ -6,13 +6,13 @@
 		<link rel="stylesheet" type="text/css" href="/np.css">
 	</head>
   <body style="font-family: Arial, Helvetica;">
-		<h3>Network data storage servlet.</h3>
+		<h2>Network data storage servlet.</h2>
 		<h4>Description</h4>
 		<p>
 		Network data storage servlet (NDSS) is a tool to store any information you wish and to make it available for you and your applications. It could be, ie. a storage for your application properties. You can access your properties, using its name and your application id, both defined by you. Each property within one application id has to be unique. You can have as many properties and applications as you wish. Maximum size of property name is 35 characters and maximum size of its value is 10kB (10240 characters).
 		</p>
-		<font style="color#FF0000"><b>WARNING!</b></font><br>
-		<ol style="color:#FF0000;">
+		<font style="color: #FF0000"><b>WARNING!</b></font><br>
+		<ol style="color: #FF0000;">
 			<li><span style="color: #000000"><b>Any data stored via NDSS could be public!</b> So, keep in mind to do not store any sensitive information in clear text. Encrypt them before store.</span></li>
 			<li><span style="color: #000000">Your <b>S</b>torage <b>G</b>roup <b>ID</b> (<b>SGID</b>) should be more or less random to avoid others to read or modify your data.</span></li>
 				<li><span style="color: #000000">Unused data will be <b>deleted</b> after 30 days of inactivity (reading is activity too).</span></li>
@@ -79,7 +79,9 @@
     <hr>
 		<h4>Usage</h4>
 		Every operations are done via http://[your server]/ndss-server/ndss invoked with parameter:
-		<b>operation</b>. Possible values are:<br>
+    <ol>
+      <li>
+		<b>operation</b> set to one of:<br>
 		<ul type="circle">
 			<li><b>add</b> - must be invoked with additional parameter: <b>propertyName</b>. Parameter <b>propertyValue</b> is optional. It is possible to store empty entries. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.
 			</li>
@@ -90,9 +92,17 @@
 			</li>
 			<li><b>delete</b> - must be invoked with additional parameter <b>propertyName</b>. Returns <code>true</code> if operation done with success, <code>false</code> otherwise.</li>
 		</ul>
-    <font color="#FF0000">Each of the operations <b>has to</b> be invoked with parameters: <b>sgid</b> with
-      value set to your application id and <b>format</b> set to one of: <i>text, html, xml or json</i></font><br>
-		Operations <code>get</code> and <code>list</code> <b>could</b> be invoked with parameter <b>html</b> to get HTML formatted output.
+      </li>
+      <li><b>sgid</b> - value set to your application id, internally called Storage Group ID</li>
+      <li><b>format</b> set to one of: 
+        <ul>
+          <li>text</li>
+          <li>html</li>
+          <li>xml</li>
+          <li>json</li>
+        </ul>
+      </li>
+    </ol>
 		<hr>
 		<h4>Examples</h4>
 		<ol type="I">
@@ -154,9 +164,13 @@ System.out.println(client.call());
 		</ol>
     <hr>
     <h4>Changelog</h4>
+    <address>updated 16.12.2020</address>
+    <p>
+    <i>&nbsp;* Corrections in documentation..</i>
+    </p>
     <address>updated 12.12.2020</address>
     <p>
-    <i>&nbsp;* Fixed swapped values: name and last update date.</i><br/>
+    <i>&nbsp;* Fixed swapped values: name and last update date.</i><br>
     <i>&nbsp;* Added information about entry creation date.</i>
     </p>
     <address>updated 19.11.2020</address>
