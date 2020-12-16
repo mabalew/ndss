@@ -83,7 +83,8 @@ delete entry
 System.out.println(client.call());`
 
 
-Changelog
+Changelog:
+
 updated 16.12.2020
 * Corrections in documentation.
 updated 12.12.2020
