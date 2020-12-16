@@ -14,17 +14,18 @@ Usage
 Every operations are done via http://[your server]/ndss-server/ndss invoked with parameter:
 
 operation set to one of:
-add - must be invoked with additional parameter: propertyName. Parameter propertyValue is
+
+
+- add - must be invoked with additional parameter: propertyName. Parameter propertyValue is
 optional. It is possible to store empty entries. Returns true if operation done with success,
 false otherwise.
-update - must be invoked with additional parameters: propertyName, propertyValue. If no
+- update - must be invoked with additional parameters: propertyName, propertyValue. If no
 propertyValue parameter exists, the value will be nullified. Returns true if operation
 done with success, false otherwise.
-get - must be invoked with additional parameter propertyName. Returns string
+- get - must be invoked with additional parameter propertyName. Returns string
 representation of the entry value or string 'null' in case of empty value.
-list returns list of entries within the SGID given by sgid parameter, in
-form:
-[key]::==::[last modification date]::==::[value]
+- list - returns list of entries within the SGID given by sgid parameter, in form:
+`[key]::==::[last modification date]::==::[value]`
 delete - must be invoked with additional parameter propertyName. Returns true if operation done with success,
 false otherwise.
 sgid - value set to your application id, called Storage Group ID
@@ -58,50 +59,48 @@ file and import of org.apache.log4j.Logger. You can simplify your life by using 
 
 add new entry
 
-NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid, format);
-System.out.println(client.call());
+`NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid, format);
+System.out.println(client.call());`
 
 update entry
 
-NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid, format);
-System.out.println(client.call());
+`NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid, format);
+System.out.println(client.call());`
 
 read entry
 
-NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid, format);
-System.out.println(client.call());
+`NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid, format);
+System.out.println(client.call());`
 
 list entries
 
-NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid, format);
-System.out.println(client.call());
+`NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid, format);
+System.out.println(client.call());`
 
 delete entry
 
-NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid, format);
-System.out.println(client.call());
+`NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid, format);
+System.out.println(client.call());`
 
 
-Changelog updated
-
-16.12.2020
+Changelog
+updated 16.12.2020
 * Corrections in documentation.
-updated
-12.12.2020
+updated 12.12.2020
 * Fixed swapped values: name and last update date.
-* Added information about entry creation date. updated
-19.11.2020
-* Added XML and JSON as output format for the data. updated
-31.08.2016
-* Added verification of data read from database, before creating resulting string. updated
-30.09.2013
-* NetProperties renamed to NDSS updated
-18.09.2013
-* Added enum NDSClient.Operation to use instead of String represenations of the commands. updated
-14.09.2013
-* Added "HTML output" checkbox to test form. updated
-12.09.2013
-* Added test form updated
-06.09.2013
+* Added information about entry creation date.
+updated 19.11.2020
+* Added XML and JSON as output format for the data.
+updated 31.08.2016
+* Added verification of data read from database, before creating resulting string. 
+updated 30.09.2013
+* NetProperties renamed to NDSS
+updated 18.09.2013
+* Added enum NDSClient.Operation to use instead of String represenations of the commands. 
+updated 14.09.2013
+* Added "HTML output" checkbox to test form.
+updated 12.09.2013
+* Added test form
+updated 06.09.2013
 * Corrected index columns to avoid problem with adding new entry with the same name, but with another SGID.
 * Corrected database connection config and IP address in this page, after provider's changes. 
