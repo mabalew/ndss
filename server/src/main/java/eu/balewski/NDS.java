@@ -178,6 +178,21 @@ public class NDS {
     return result.toString();
   }
 
+  private String getHTMLList(ResultSet rs) throws SQLException {
+    StringBuilder result = new StringBuilder();
+		result.append("<table border='0' cellpadding='2' cellspacing='0'>");
+    while (rs.next()) {
+				  result.append("<tr>");
+				  result.append("<td style=\"background-color: #cc99ff\">" + rs.getTimestamp(4) + "</td>");
+				  result.append("<td>" + rs.getTimestamp(3) + "</td>");
+				  result.append("<td style=\"background-color: #cc99ff\">" + rs.getString(1) + "</td>");
+				  result.append("<td>" + rs.getString(2) + "</td>");
+				  result.append("</tr>");
+			}
+			result.append("</table>");
+      return result.toString();
+  }
+
   public String list(NDSOutputFormat outputFormat) {
 		CallableStatement statement = null;
 		String sql = "{ ? = call devtools.list_properties(?) }";
@@ -198,6 +213,8 @@ public class NDS {
           result.append(getXMLList(rs));
         } else if (outputFormat == NDSOutputFormat.JSON) {
           result.append(getJSONList(rs));
+        } else if (outputFormat == NDSOutputFormat.HTML) {
+          result.append(getHTMLList(rs));
         }
 			  rs.close();
 			  statement.close();

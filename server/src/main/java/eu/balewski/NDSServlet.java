@@ -122,24 +122,7 @@ public class NDSServlet extends HttpServlet {
       return getNDS().list(NDSOutputFormat.JSON);
     } else if (html) {
 			this.html = false;
-			String[] lines = getNDS().list(NDSOutputFormat.TEXT).split(System.getProperty("line.separator"));
-			sb.append("<table border='0' cellpadding='2' cellspacing='0'>");	
-			for (String line: lines) {
-				String[] eqLine = line.split("::==::");
-        if (eqLine != null && eqLine.length == 4) {
-				  String key = eqLine[0];
-          String created = eqLine[1];
-				  String lastUpdate = eqLine[2];
-				  String value = eqLine[3];
-				  sb.append("<tr>");
-				  sb.append("<td style=\"background-color: #cc99ff\">" + created + "</td>");
-				  sb.append("<td>" + lastUpdate + "</td>");
-				  sb.append("<td style=\"background-color: #cc99ff\">" + key + "</td>");
-				  sb.append("<td>" + value + "</td>");
-				  sb.append("</tr>");
-        }
-			}
-			sb.append("</table>");
+			return getNDS().list(NDSOutputFormat.HTML);
 		}
 		return sb.toString();
 	}
