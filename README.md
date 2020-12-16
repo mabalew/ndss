@@ -26,7 +26,7 @@ representation of the entry value or string 'null' in case of empty value.
 `[key]::==::[last modification date]::==::[value]`
 delete - must be invoked with additional parameter propertyName. Returns true if operation done with success,
 false otherwise.
-2. sgid - value set to your application id, called Storage Group ID
+2. *sgid* - value set to your application id, called Storage Group ID
 3. *format* set to one of:
 - text
 - html
