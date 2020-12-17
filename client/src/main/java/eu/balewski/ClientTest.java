@@ -3,15 +3,7 @@ package eu.balewski;
 public class ClientTest {
 	static String sgid;
   static String outputFormat = "";
-/*  static NDSOutputFormat outputFormat;
 
-  private static void //setOutputFormat(String format) {
-    if (format.equalsIgnoreCase("text")) outputFormat = NDSOutputFormat.TEXT;
-    else if (format.equalsIgnoreCase("html")) outputFormat = NDSOutputFormat.HTML;
-    else if (format.equalsIgnoreCase("xml")) outputFormat = NDSOutputFormat.XML;
-    else if (format.equalsIgnoreCase("json")) outputFormat = NDSOutputFormat.JSON;
-  }
-*/
 	public static void main(String ... args) {
 		if (args == null || args.length < 2) {
 			System.out.println("niepoprawna liczba parametrów (-1)");
@@ -21,7 +13,7 @@ public class ClientTest {
 				if (args.length >= 3) {
 					sgid = args[3];
           outputFormat = args[4];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testAdd(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-2)");
@@ -31,7 +23,7 @@ public class ClientTest {
 				if (args.length >= 3) {
 					sgid = args[3];
           outputFormat = args[4];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testAddMass(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-22)");
@@ -42,7 +34,7 @@ public class ClientTest {
 				if (args.length >= 2) {
 					sgid = args[2];
           outputFormat = args[3];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testGet(args[1]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-3)");
@@ -55,7 +47,7 @@ public class ClientTest {
           System.out.println("sgid: " + args[1]);
 					sgid = args[1];
           outputFormat = args[2];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testList();
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-3)");
@@ -66,7 +58,7 @@ public class ClientTest {
 				if (args.length >= 3) {
 					sgid = args[3];
           outputFormat = args[4];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testUpdate(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-4)");
@@ -76,7 +68,7 @@ public class ClientTest {
 				if (args.length >= 2) {
 					sgid = args[2];
           outputFormat = args[3];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testDelete(args[1]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-5)");
@@ -86,7 +78,7 @@ public class ClientTest {
 				if (args.length >= 3) {
 					sgid = args[3];
           outputFormat = args[4];
-          //setOutputFormat(outputFormat);
+          ClientTest.outputFormat = outputFormat;
 					testDeleteMass(args[1], args[2]);
 				} else {
 					System.out.println("niepoprawna liczba parametrów (-5)");
