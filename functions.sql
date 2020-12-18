@@ -55,7 +55,7 @@ CREATE OR REPLACE FUNCTION list_properties(_sgid text)
   DECLARE
    curs refcursor;
   BEGIN
-    OPEN curs FOR SELECT name, value, last_access_date as value FROM properties WHERE sgid=_sgid;
+    OPEN curs FOR SELECT name, value, last_access_date, creation_date as value FROM properties WHERE sgid=_sgid;
     UPDATE properties SET last_access_date = now() WHERE sgid=_sgid;
     return curs;
   END;
