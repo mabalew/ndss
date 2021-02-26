@@ -5,6 +5,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 public class NDSServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private NDS nds = null;
 	private String sgid;
 	private boolean text = false;
