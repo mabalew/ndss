@@ -57,7 +57,7 @@ public class NDSClient {
 		} catch (Exception e) {
 			LOGGER.error(e, e);
 		}
-		LOGGER.debug("calling urlconnection: " + connection.toString());
+		LOGGER.debug("calling url: " + connection.toString());
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
