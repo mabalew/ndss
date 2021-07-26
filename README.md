@@ -10,6 +10,7 @@ unique. You can have as many properties and applications as you wish.
 Maximum size of property name is 35 characters and maximum size of its
 value is 10kB (10240 characters).
 More detailed instruction: src/server/src/main/webapp/index.html.
+
 Usage:
 
 Every operations are done via http://[your server]/ndss-server/ndss invoked with parameter:
