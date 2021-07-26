@@ -1,5 +1,3 @@
-package eu.balewski;
-
 import java.net.*;
 import java.io.*;
 import java.util.Map;
@@ -7,6 +5,7 @@ import java.util.Properties;
 import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
 
 /**
  * @author: Mariusz Balewski
@@ -19,6 +18,7 @@ public class NDSClient {
 	private String propertyValue;
 	private String sgid;
 	private Operation operation;
+  private Format format;
 
   public enum Operation {
     ADD,
@@ -28,23 +28,40 @@ public class NDSClient {
     DELETE;
   };
 
-	public NDSClient(Operation operation, String propertyName, String propertyValue, String sgid) {
-		this(operation, propertyName, sgid);
+  public enum Format {
+    TEXT,
+    HTML,
+    XML,
+    JSON
+  };
+
+	public NDSClient(Operation operation, String propertyName, String propertyValue, String sgid, Format format) {
+		this(operation, propertyName, sgid, format);
 		this.propertyValue = propertyValue;
+    this.format = format;
 	}
 
-	public NDSClient(Operation operation, String propertyName, String sgid) {
+	public NDSClient(Operation operation, String propertyName, String sgid, Format format) {
 		this.operation = operation;
 		this.propertyName = propertyName;
 		this.sgid = sgid;
+    this.format = format;
+	}
+
+	public NDSClient(Operation operation, String sgid, Format format) {
+		this.operation = operation;
+		this.sgid = sgid;
+    this.format = format;
 	}
 
 	public String call() {
+    BasicConfigurator.configure();
 		Map<String, String> params = new LinkedHashMap<String, String>();
-		params.put("operation", this.operation.toString());
+		params.put("operation", this.operation.toString().toLowerCase());
 		params.put("propertyName", this.propertyName);
 		params.put("propertyValue", this.propertyValue);
 		params.put("sgid", this.sgid);
+    params.put("format", this.format.toString().toLowerCase());
 
 		URLConnection connection = null;
 		try {
