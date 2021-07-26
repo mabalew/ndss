@@ -35,17 +35,14 @@ public class NDSClient {
     JSON
   };
 
-	public NDSClient(Operation operation, String propertyName, String propertyValue, String sgid, Format format) {
-		this(operation, propertyName, sgid, format);
+	public NDSClient(Operation operation, String sgid, Format format, String propertyName, String propertyValue) {
+		this(operation, sgid, format, propertyName);
 		this.propertyValue = propertyValue;
-    this.format = format;
 	}
 
-	public NDSClient(Operation operation, String propertyName, String sgid, Format format) {
-		this.operation = operation;
-		this.propertyName = propertyName;
-		this.sgid = sgid;
-    this.format = format;
+	public NDSClient(Operation operation, String sgid, Format format, String propertyName) {
+		this(operation, sgid, format);
+    this.propertyName = propertyName;
 	}
 
 	public NDSClient(Operation operation, String sgid, Format format) {
