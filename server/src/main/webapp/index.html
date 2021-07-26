@@ -131,32 +131,74 @@
 			<ul type="circle">
 				<li>add new entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.ADD, name, value, sgid, format);
+NDSClient client = new NDSClient(NDSClient.Operation.ADD, sgid, NDSClient.Format.[format], name, value);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>update entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, name, value, sgid, format);
+NDSClient client = new NDSClient(NDSClient.Operation.UPDATE, sgid,NDSClient.Format.[format]);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>read entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.GET, name, sgid, format);
+NDSClient client = new NDSClient(NDSClient.Operation.GET, sgid, NDSClient.Format.[format], name, value);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>list entries<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.LIST, null, sgid, format);
+NDSClient client = new NDSClient(NDSClient.Operation.LIST, sgid, NDSClient.Format.[format]);
 System.out.println(client.call());
 				</pre>
 				</li>
 				<li>delete entry<br>
 				<pre>
-NDSClient client = new NDSClient(NDSClient.Operation.DELETE, name, sgid, format);
+NDSClient client = new NDSClient(NDSClient.Operation.DELETE, sgid, NDSClient.Format.[format], name);
 System.out.println(client.call());
+				</pre>
+				</li>
+			</ul>
+			</li>
+      <li><b>Python</b><br>
+			<p>
+			Download the file <a href="NDSClient.py"><code>NDSClient</code></a>. It is prepared to work with a
+      configuration file called <a href="client.py">'client.py'</a>.
+      You can simplify your life by using <code>NDSClient</code>, just like:</p>
+      <pre>
+      import NDSClient
+      from NDSClient import NDSClient, Operation, Format
+      </pre>
+			<ul type="circle">
+				<li>add new entry<br>
+				<pre>
+client = NDSClient(Operation.ADD, sgid, Format.JSON, name, value)
+print(client.call())
+				</pre>
+				</li>
+				<li>update entry<br>
+				<pre>
+client = NDSClient(Operation.UPDATE, sgid, Format.JSON, name, value)
+print(client.call())
+				</pre>
+				</li>
+				<li>read entry<br>
+				<pre>
+client = NDSClient(Operation.GET, sgid, Format.JSON, name)
+print(client.call())
+				</pre>
+				</li>
+				<li>list entries<br>
+				<pre>
+client = NDSClient(Operation.LIST, sgid, Format.JSON)
+print(client.call())
+				</pre>
+				</li>
+				<li>delete entry<br>
+				<pre>
+client = NDSClient(Operation.DELETE, sgid, Format.JSON, name)
+print(client.call())
 				</pre>
 				</li>
 			</ul>
@@ -164,9 +206,10 @@ System.out.println(client.call());
 		</ol>
     <hr>
     <h4>Changelog</h4>
-    <address>updated 16.12.2020</address>
+    <address>updated 26.07.2021</address>
     <p>
     <i>&nbsp;* Corrections in NDSClient.java - format of returned data.</i><br>
+    <i>&nbsp;* Added Python client.</i><br>
     </p>
     <address>updated 16.12.2020</address>
     <p>

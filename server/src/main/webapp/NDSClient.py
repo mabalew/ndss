@@ -1,11 +1,12 @@
 import client
+import requests
 from enum import Enum
 
 
 class Operation(Enum):
     ADD = 'add'
     UPDATE = 'update'
-    READ = 'read'
+    GET = 'get'
     LIST = 'list'
     DELETE = 'delete'
 
@@ -27,8 +28,12 @@ class NDSClient:
         self.value = value
 
     def prepare_url(self, params):
+        url = '?'
         for key in params:
-            print(key, params[key])
+            if params[key] is not None:
+                url += key + '=' + params[key] + '&'
+
+        return client.SERVLET_URL + url
 
     def call(self):
         self.params['operation'] = self.operation.value
@@ -36,7 +41,8 @@ class NDSClient:
         self.params['format'] = self.format.value
         self.params['name'] = self.name
         self.params['value'] = self.value
-        self.prepare_url(self.params)
+        url = self.prepare_url(self.params)
+        return requests.get(url).text
 
 def main():
     print(client.SERVLET_URL)
