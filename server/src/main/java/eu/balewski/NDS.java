@@ -162,7 +162,9 @@ public class NDS {
   private String getJSONList(ResultSet rs) throws SQLException {
 		StringBuilder result = new StringBuilder();
     result.append("{").append(System.getProperty("line.separator")).append("\"entries\": [");
+    boolean hasRs = false;
 		while (rs.next()) {
+      hasRs = true;
       result.append("{").append(System.getProperty("line.separator"));
 			result.append("\"created\": \"").append(rs.getTimestamp(4)).append("\",").append(System.getProperty("line.separator"));
 			result.append("\"updated\": \"").append(rs.getTimestamp(3)).append("\",").append(System.getProperty("line.separator"));
@@ -170,8 +172,10 @@ public class NDS {
       result.append("\"value\": \"").append(rs.getString(2)).append("\"").append(System.getProperty("line.separator"));
       result.append("},").append(System.getProperty("line.separator"));
 		}
-    result.deleteCharAt(result.length() - 1);
-    result.deleteCharAt(result.length() - 1);
+    if (hasRs) {
+      result.deleteCharAt(result.length() - 1);
+      result.deleteCharAt(result.length() - 1);
+    }
     result.append("]").append(System.getProperty("line.separator"));
     result.append("}");
 
