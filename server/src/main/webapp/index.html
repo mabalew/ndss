@@ -164,8 +164,8 @@ System.out.println(client.call());
       <li><b>Python</b><br>
 			<p>
 			Download the file <a href="NDSClient.py"><code>NDSClient</code></a>. It is prepared to work with a
-      configuration file called <a href="client.py">'client.py'</a>.
-      You can simplify your life by using <code>NDSClient</code>, just like:</p>
+      configuration file called <a href="client.py">'client.py'</a>.<br>
+      Example code:
       <pre>
       import NDSClient
       from NDSClient import NDSClient, Operation, Format
@@ -204,14 +204,44 @@ print(client.call())
 			</ul>
 			</li>
       <li><b>Python v2</b><br>
-        <b>TODO:<i>description tbd</i></b>
-			Download the file <a href="nds.py"><code>nds</code></a>.
-      
+        Download the file <a href="nds.py"><code>nds</code></a>.<br>
+      Example code:<br>
+      <pre>
+from ndss import Entry
+from ndss import NDS
+
+def main():
+    nds = NDS("my_sgid")
+
+    # List all entries
+    entries = nds.list()
+    for entry in entries:
+        print(entry.value)
+
+    # Add entry
+    print(nds.add("t1", "v1"))
+
+    # Update entry
+    print(nds.update("t1", "v2"))
+
+    # Get entry
+    entry = nds.get("t1")
+
+    # Delete entry
+    print(nds.delete("t1"))
+
+if __name__ == "__main__":
+    main()
+      </pre>
       </li>
 		</ol>
     <hr>
     <h4>Changelog</h4>
+    <address>updated 25.10.2023</address>
+    <p>
+    <i>&nbsp;* Changes in index.html - added description to Python v2 client.</i><br>
     <address>updated 24.10.2023</address>
+    </p>
     <p>
     <i>&nbsp;* Corrections in NDS.java - incorrect list returned in case of no data.</i><br>
     <i>&nbsp;* New Python client.</i>
