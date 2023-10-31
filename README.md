@@ -61,7 +61,7 @@ http://[your server]/ndss-server/ndss?operation=delete&format=[text, html, xml o
 
 II. **Java**
 
-Download the class NDSClient. It is prepared to work with a configuration file called 'client.conf'. It is also
+Download the class [NDSClient](https://ndss.bmariusz.usermd.net/ndss-server/NDSClient.java). It is prepared to work with a configuration file called 'client.conf'. It is also
 using log4j. If you do not want to logging, remove any line containing 'LOGGER' word from NDSClient.java
 file and import of org.apache.log4j.Logger. You can simplify your life by using NDSClient, just like:
 
@@ -97,7 +97,7 @@ System.out.println(client.call());
 
 III. **Python**
 
-Download the file NDSClient. It is prepared to work with a configuration file called 'client.py'.
+Download the file [NDSClient](https://ndss.bmariusz.usermd.net/ndss-server/NDSClient.py). It is prepared to work with a configuration file [client.py](https://ndss.bmariusz.usermd.net/ndss-server/client.py).
 Example code:
 ```python
 import NDSClient
@@ -127,7 +127,7 @@ def main():
 
 IV. **Python v2**
 
-Download the file nds.
+Download the file [nds](https://ndss.bmariusz.usermd.net/ndss-server/nds.py).
 Example code:
 
 ```python
